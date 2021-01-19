@@ -4,7 +4,7 @@
   "description": "Translates MongoDB query filters into sentences. Supports nested properties, custom field labeling, and custom locales. The result is an array of translated text for each field.",
   "main": "src/translator.js",
   "scripts": {
-    "start": "node ./src/main.js",
+    "start": "node ./src/translator.js",
     "test": "node ./test"
   },
   "repository": {
