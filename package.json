@@ -1,0 +1,26 @@
+{
+  "name": "mongo-translate",
+  "version": "1.0.0",
+  "description": "Translates MongoDB query filters into sentences. Supports nested properties, custom field labeling, and custom locales. The result is an array of translated text for each field.",
+  "main": "src/translator.js",
+  "scripts": {
+    "start": "node ./src/main.js",
+    "test": "node ./test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rledford/mongo-translate.git"
+  },
+  "keywords": [
+    "mongo",
+    "db",
+    "translate",
+    "query"
+  ],
+  "author": "Ryan Ledford (rledford)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rledford/mongo-translate/issues"
+  },
+  "homepage": "https://github.com/rledford/mongo-translate#readme"
+}
