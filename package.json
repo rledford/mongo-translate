@@ -12,10 +12,12 @@
     "url": "git+https://github.com/rledford/mongo-translate.git"
   },
   "keywords": [
+    "mongodb",
     "mongo",
     "db",
     "translate",
-    "query"
+    "query",
+    "filter"
   ],
   "author": "Ryan Ledford (rledford)",
   "license": "MIT",
