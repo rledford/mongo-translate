@@ -1,6 +1,6 @@
 {
   "name": "mongo-translate",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Translates MongoDB query filters into sentences. Supports nested properties, custom field labeling, and custom locales. The result is an array of translated text for each field.",
   "main": "src/translator.js",
   "scripts": {
