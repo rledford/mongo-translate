@@ -10,7 +10,7 @@ const kw = [
   '$gte',
   '$lt',
   '$lte',
-  '$regex',
+  '$regex'
 ];
 
 /**
@@ -82,7 +82,7 @@ function translate(options = {}) {
     const parts = k.split('.');
     const op = kw.indexOf(parts[parts.length - 1]) >= 0 ? parts.pop() : '$eq';
     const path = parts.join('.');
-    const label = labels ? labels[path] : null || path;
+    const label = (labels ? labels[path] : null) || path;
     const value = d[k];
     result.push(
       `${label} ${locale[op]}`.replace('{value}', `${getValueString(value)}`)
@@ -94,5 +94,5 @@ function translate(options = {}) {
 
 module.exports = {
   locales,
-  translate,
+  translate
 };
