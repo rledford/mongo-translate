@@ -24,6 +24,7 @@ function depthOne(filter = {}, parent = '') {
   for (const k in filter) {
     const fullPath = `${parent}${parent ? '.' : ''}`;
     let isRegex = true;
+    let isDate = filter[k] instanceof Date;
     const regexParts = `${filter[k]}`.split('/');
     const regexBody = regexParts[1];
     const regexOptions = regexParts[2];
@@ -39,7 +40,8 @@ function depthOne(filter = {}, parent = '') {
     if (
       typeof filter[k] === 'object' &&
       !Array.isArray(filter[k]) &&
-      !isRegex
+      !isRegex &&
+      !isDate
     ) {
       const nor = depthOne(filter[k], `${fullPath}${k}`);
       for (const n in nor) {
@@ -54,7 +56,7 @@ function depthOne(filter = {}, parent = '') {
 
 function getValueString(value = '') {
   const date = new Date(value);
-  const isDate = !Number.isNaN(date.getTime());
+  const isDate = value instanceof Date || !Number.isNaN(date.getTime());
   const isNumber = isNumberRegex.test(value);
   const isArray = Array.isArray(value);
   const isBoolean =

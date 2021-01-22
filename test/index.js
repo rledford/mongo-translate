@@ -31,7 +31,7 @@ const filter = {
   },
   time: {
     $gt: '2021-01-01',
-    $lte: '2021-01-31'
+    $lte: new Date()
   },
   count: {
     $gte: 10,
