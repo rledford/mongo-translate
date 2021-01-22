@@ -1,5 +1,6 @@
 const locales = require('./locales');
 const isNumberRegex = new RegExp('^-?(0|[1-9]\\d*)(\\.\\d+)?$');
+
 const kw = [
   '$eq',
   '$ne',
@@ -56,8 +57,10 @@ function getValueString(value = '') {
   const isDate = !Number.isNaN(date.getTime());
   const isNumber = isNumberRegex.test(value);
   const isArray = Array.isArray(value);
+  const isBoolean =
+    ['true', 'false'].indexOf(value.toString().toLowerCase()) >= 0;
   let result = value.toString();
-  if (!isNumber && isDate) {
+  if (!isNumber && !isBoolean && isDate) {
     result = date.toLocaleString();
   } else if (isArray) {
     result = value.join(', ');

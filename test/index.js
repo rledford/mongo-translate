@@ -10,40 +10,43 @@ const customLocale = {
   $all: 'CUSTOM ALL LOCALE {value}',
   $eq: 'CUSTOM EQ LOCALE {value}',
   $ne: 'CUSTOM NE LOCALE {value}',
-  $regex: 'CUSTOM REGEX LOCALE {value}',
+  $regex: 'CUSTOM REGEX LOCALE {value}'
 };
 
 const filter = {
   name: {
-    $regex: '/^test/i',
+    $regex: '/^test/i'
   },
   type: {
-    $ne: 'TEST',
+    $ne: 'TEST'
   },
   organization: {
-    $eq: 'TEST',
+    $eq: 'TEST'
   },
   tags: {
-    $all: ['TEST', 'ALL'],
+    $all: ['TEST', 'ALL']
   },
   category: {
-    $in: ['TEST', 'IN'],
+    $in: ['TEST', 'IN']
   },
   time: {
     $gt: '2021-01-01',
-    $lte: '2021-01-31',
+    $lte: '2021-01-31'
   },
   count: {
     $gte: 10,
-    $lt: 20,
+    $lt: 20
   },
   metrics: {
     total: 1, // no operator $eq
     keys: { $in: ['nested'] },
     data: {
-      nested: { $eq: 1 },
-    },
+      nested: { $eq: 1 }
+    }
   },
+  flag: {
+    $eq: true
+  }
 };
 const labels = {
   name: 'Name',
@@ -53,9 +56,10 @@ const labels = {
   category: 'Category',
   time: 'Date/Time',
   count: 'Count',
+  flag: 'Flag',
   'metrics.total': 'Metrics Total',
   'metrics.keys': 'Metrics Keys',
-  'metrics.data.nested': 'Metrics Data Nested',
+  'metrics.data.nested': 'Metrics Data Nested'
 };
 
 locales.custom = customLocale;
@@ -64,7 +68,7 @@ console.log(
   translate({
     filter,
     labels,
-    locale: locales.enus,
+    locale: locales.enus
   })
 );
 
@@ -72,6 +76,6 @@ console.log(
   translate({
     filter,
     labels,
-    locale: 'custom',
+    locale: 'custom'
   })
 );
