@@ -8,6 +8,14 @@ Translates MongoDB query filters into sentences. Supports nested properties, cus
 - [Usage](#install)
 - [Options](#options)
 - [Custom Locale](#custom-locale)
+- [Reduce](#reduce)
+
+### v2 Changes
+
+- The args for the `translate` method have changed. It should now be called with a valid MongoDB query _filter_ as the first argument followed by a config object that includes the _labels_ and _locale_ to use.
+- Improved translation for various data types.
+- Regex detection is still minimal but improved.
+- The module now exposes the `reduce` method which is used in the translate method but can now be called directly. This method reduces the depth of an object to 1.
 
 ### Install
 
@@ -24,35 +32,35 @@ const mongoTranslate = require('mongo-translate');
 // Query Filter Sample
 const filter = {
   name: {
-    $regex: '/^test/i',
+    $regex: '/^test/i'
   },
   type: {
-    $ne: 'TEST',
+    $ne: 'TEST'
   },
   organization: {
-    $eq: 'TEST',
+    $eq: 'TEST'
   },
   tags: {
-    $all: ['TEST', 'ALL'],
+    $all: ['TEST', 'ALL']
   },
   category: {
-    $in: ['TEST', 'IN'],
+    $in: ['TEST', 'IN']
   },
   time: {
     $gt: '2021-01-01',
-    $lte: '2021-01-31',
+    $lte: '2021-01-31'
   },
   count: {
     $gte: 10,
-    $lt: 20,
+    $lt: 20
   },
   metrics: {
     total: 1, // no operator $eq
     keys: { $in: ['nested'] },
     data: {
-      nested: { $eq: 1 },
-    },
-  },
+      nested: { $eq: 1 }
+    }
+  }
 };
 
 // Custom Field Labels
@@ -66,14 +74,13 @@ const labels = {
   count: 'Count',
   'metrics.total': 'Metrics Total',
   'metrics.keys': 'Metrics Keys',
-  'metrics.data.nested': 'Metrics Data Nested',
+  'metrics.data.nested': 'Metrics Data Nested'
 };
 
 // Translate MongoDB query filter
-mongoTranslate.translate({
-  filter,
+mongoTranslate.translate(filter, {
   labels,
-  locale: 'enus',
+  locale: 'enus'
 });
 
 /* Output
@@ -157,5 +164,30 @@ mongoTranslate.translate({
   'Metrics Keys CUSTOM IN LOCALE [ nested ]',
   'Metrics Data Nested CUSTOM EQ LOCALE [ 1 ]'
 ]
+*/
+```
+
+### Reduce
+
+```js
+const obj = {
+  propA: 1,
+  propB: {
+    nestedPropA: 1,
+    nestedPropB: ['a', 'b', 'c']
+  }
+  propC: [{propA: 1, propB: 2}, {propA: 1, propB: 2}]
+}
+
+// Reduce without reducing arrays
+reduce(obj)
+
+/* Output
+{
+  propA: 1,
+  'propB.nestedPropA': 1,
+  'propB.nestedPropB': [ 'a', 'b', 'c' ],
+  propC: [ { propA: 1, propB: 2 }, { propA: 1, propB: 2 } ]
+}
 */
 ```
