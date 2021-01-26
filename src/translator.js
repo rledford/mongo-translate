@@ -14,6 +14,40 @@ const kw = [
   '$regex'
 ];
 
+function reduce(obj = {}, parent = '') {
+  const result = {};
+  const path = `${parent}${parent ? '.' : ''}`;
+  for (k in obj) {
+    if (typeof obj[k] === 'string') {
+      const parts = obj[k].split('/');
+      if (parts.length === 3 && parts[1]) {
+        // ASSUMES IT FOUND A REGULAR EXPRESSION (update with better regex detection)
+        result[parent] = parts[1];
+      } else {
+        result[parent] = obj[k];
+      }
+    } else if (obj[k] instanceof Number) {
+      result[parent] = obj[k];
+    } else if (obj[k] instanceof RegExp) {
+      result[parent] = obj[k].toString().split('/')[1];
+    } else if (obj[k] instanceof Array) {
+      for (let i = 0; i < obj[k].length; i++) {
+        typeof obj[k][i] === 'object'
+          ? Object.assign(result, reduce(obj[k][i], `${path}${i}`))
+          : (result[`${path}${i}`] = obj[k][i]);
+      }
+    } else if (obj[k] instanceof Date) {
+      result[parent] = obj[k].toLocaleString();
+    } else if (typeof obj[k] === 'object') {
+      Object.assign(result, reduce(obj[k], `${path}${k}`));
+    } else {
+      result[parent] = obj[k];
+    }
+  }
+
+  return result;
+}
+
 /**
  * Iterates through all keys and nested keys and returns an new object with a depth of 1 where nested object keys are strings using dot notation
  *
@@ -99,5 +133,6 @@ function translate(options = {}) {
 
 module.exports = {
   locales,
-  translate
+  translate,
+  reduce
 };
